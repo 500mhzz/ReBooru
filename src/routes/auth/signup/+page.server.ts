@@ -5,11 +5,10 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }) => {
 	if (locals.user) return redirect(302, '/');
-	throw redirect(302, '/auth/login');
 };
 
 export const actions = {
-	default: async ({ request, cookies }) => {
+	default: async ({ request, cookies, url }) => {
 		try {
 			const { password, email, username } = Object.fromEntries(await request.formData());
 			const user = await createUser(email.toString(), username.toString(), password.toString());
@@ -27,13 +26,17 @@ export const actions = {
 			cookies.set('jwt', token, {
 				path: '/',
 				httpOnly: true,
-				maxAge: 3600,
+				maxAge: 2 * 24 * 3600,
 				sameSite: 'lax'
 			});
 		} catch (e) {
 			new Error(`${(e as { message: string }).message || 'An unknown error has occured'}`);
 		}
 
+		const redirectTo = url.searchParams.get('from') || '/';
+		if(redirectTo) {
+			throw redirect(302, `/${redirectTo.slice(1)}`)
+		}
 		return redirect(302, '/');
 	}
 };

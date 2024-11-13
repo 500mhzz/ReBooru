@@ -3,8 +3,12 @@ import jwt from 'jsonwebtoken';
 import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 
+export const load = async ({ locals }) => {
+	if (locals.user) return redirect(302, "/");
+}
+
 export const actions = {
-	default: async ({ request, cookies }) => {
+	default: async ({ request, cookies, url }) => {
 		try {
 			const { password, email } = Object.fromEntries(await request.formData());
 			const user = await loginUser(email.toString(), password.toString());
@@ -22,13 +26,17 @@ export const actions = {
 			cookies.set('jwt', token, {
 				path: '/',
 				httpOnly: true,
-				maxAge: 3600,
+				maxAge: 2 * 24 * 3600,
 				sameSite: 'lax'
 			});
 		} catch (e) {
 			throw new Error(`${(e as { message: string }).message || 'An unkown error has occured.'}`);
 		}
 
+		const redirectTo = url.searchParams.get('from') || '/';
+		if(redirectTo) {
+			throw redirect(302, `/${redirectTo.slice(1)}`)
+		}
 		return redirect(302, '/');
 	}
 };

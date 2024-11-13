@@ -1,6 +1,13 @@
-import { type ActionFailure, fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { uploadFile } from '$lib/server/AWS/s3';
 import { prisma } from '$lib/server/db';
+import { handleLoginRedirects } from '$lib';
+
+export const load = async (event) => {
+	if(!event.locals.user) {
+		throw redirect(302, handleLoginRedirects(event));
+	}
+}
 
 export const actions = {
 	default: async ({ request, locals }) => {

@@ -25,6 +25,7 @@ export const handle = async ({ event, resolve }) => {
 
 	if (!decoded) {
 		event.cookies.delete('jwt', { path: '/' });
+		event.locals.user = null
 		return resolve(event);
 	}
 
@@ -38,6 +39,7 @@ export const handle = async ({ event, resolve }) => {
 
 	if (!user) {
 		event.cookies.delete('jwt', { path: '/' });
+		event.locals.user = null
 		return resolve(event);
 	}
 

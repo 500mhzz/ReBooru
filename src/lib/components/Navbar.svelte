@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="flex flex-row items-center gap-3">
-		<a href="/explore">Explore</a>
+		<a href="/search">Search</a>
 		<a href="/users">Users</a>
 		<a href="/tags">Tags</a>
 	</div>
