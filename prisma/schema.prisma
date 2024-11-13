@@ -24,7 +24,7 @@ model User {
   createdAt DateTime @default(now())
 
   profile UserProfile?
-  images  Post[]
+  posts   Post[]
 }
 
 model UserProfile {
@@ -46,6 +46,7 @@ model Post {
   id String @id @default(cuid())
 
   url         String[]
+  title       String
   description String?
   tags        Tag[]
 

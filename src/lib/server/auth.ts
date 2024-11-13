@@ -40,7 +40,6 @@ export async function createUser(email: string, username: string, password: stri
 			password: hashedPassword,
 			profile: {
 				create: {
-					bio: "None Provided",
 					avatarUrl: "https://www.gravatar.com/avatar/"
 				}
 			}
@@ -55,17 +54,6 @@ export async function createUser(email: string, username: string, password: stri
 
 export async function getUserByEmail(email: string) {
 	return prisma.user.findUnique({ where: { email } });
-}
-
-export async function getUserByUsername(username: string) {
-	return prisma.user.findUnique({ where: {
-			username
-		}
-	});
-}
-
-export async function getUserById(id: string) {
-	return prisma.user.findUnique({ where: { id } });
 }
 
 export async function loginUser(email: string, password: string) {

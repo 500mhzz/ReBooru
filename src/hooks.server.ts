@@ -28,7 +28,13 @@ export const handle = async ({ event, resolve }) => {
 		return resolve(event);
 	}
 
-	const user = prisma.user.findUnique({ where: { id: decoded.id } });
+	const user = await prisma.user.findUnique({
+		where: { id: decoded.id },
+		include: {
+			profile: true,
+			posts: true
+		}
+	});
 
 	if (!user) {
 		event.cookies.delete('jwt', { path: '/' });
