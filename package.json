@@ -12,7 +12,7 @@
 		"lint": "prettier --check . && eslint .",
 		"db:migrate": "prisma migrate dev",
 		"db:studio": "prisma studio",
-		"git:push": "git push -u origin main",
+		"git:push": "git push -u origin main"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
