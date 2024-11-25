@@ -1,0 +1,25 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer utilities {
+    .masonry {
+        column-gap: 0.8rem;
+        column-count: 1;
+    }
+    .masonry-sm {
+        @apply masonry;
+        column-count: 2;
+    }
+    .masonry-md {
+        @apply masonry;
+        column-count: 3;
+    }
+    .masonry-lg {
+        @apply masonry;
+        column-count: 5;
+    }
+    .break-inside {
+        break-inside: avoid;
+    }
+}
