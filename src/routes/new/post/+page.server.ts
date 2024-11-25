@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { createSessionClient } from '$lib/server/appwrite';
-import { Databases, ID, Query, Storage } from 'node-appwrite';
+import { Databases, ID, Permission, Query, Role, Storage } from 'node-appwrite';
 import { env } from '$env/dynamic/public';
 
 export const actions = {
@@ -12,6 +12,10 @@ export const actions = {
 
 		if (!locals.user) {
 			redirect(302, '/login?message=You need to be logged in to create a post!');
+		}
+
+		if(!locals.user.emailVerification) {
+			redirect(302, '/?message=You need to verify your email to create a post!');
 		}
 
 		if (!content || content.toString().length === 0) {
@@ -74,7 +78,12 @@ export const actions = {
 				tags: tagIds,
 				createdAt: new Date(),
 				user: locals.user.$id
-			}
+			},
+			[
+				Permission.delete(Role.user(locals.user.$id)),
+				Permission.read(Role.user(locals.user.$id)),
+				Permission.write(Role.user(locals.user.$id))
+			]
 		);
 
 		redirect(302, '/');

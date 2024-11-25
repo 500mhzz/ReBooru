@@ -6,6 +6,7 @@ import {
 	avatars
 } from '$lib/server/appwrite';
 import { ID } from 'node-appwrite';
+import { env } from '$env/dynamic/private';
 
 export const load = async ({ locals }) => {
 	if (locals.user) {
@@ -22,6 +23,10 @@ export const actions = {
 		// Create the session using the client
 		await account.create(ID.unique(), email.toString(), password.toString(), name.toString());
 		const session = await account.createEmailPasswordSession(email.toString(), password.toString());
+
+		if(env.EMAIL_VERIFICATION && env.PUBLIC_SITE_URL) {
+			await account.createVerification(`${env.PUBLIC_SITE_URL}/auth/verify-email`);
+		}
 
 		const randomAvatarUrl = avatars[Math.floor(Math.random() * avatars.length)];
 		const userIp = request.headers.get('x-forwarded-for') || getClientAddress();

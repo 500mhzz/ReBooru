@@ -1,9 +1,10 @@
 import { createAdminClient } from '$lib/server/appwrite';
 import { Databases } from 'node-appwrite';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals, url, params }) => {
-	if (!locals.user) {
-		return;
+	if (!locals.user && !url.toString().includes('/auth/')) {
+		redirect(302, '/auth/login?message=You need to login to view this page.');
 	}
 
 	const { account } = await createAdminClient();

@@ -5,11 +5,21 @@
 	export let tags;
 	export let post = null;
 
-	function handleSearch(event: any) {
+	const allowedPaths = ['/search'];
+
+	function handleSearch(event: Event) {
 		event.preventDefault();
-		const query = event.target.search.value;
+		const form = event.target as HTMLFormElement;
+		const query = form.search.value;
 		const url = `/search?query=${encodeURIComponent(query)}&sort=score`;
-		window.location.href = url;
+
+		// Validate the URL
+		const urlObj = new URL(url, window.location.origin);
+		if (allowedPaths.includes(urlObj.pathname)) {
+			window.location.href = url;
+		} else {
+			console.error('Invalid URL redirection attempt:', url);
+		}
 	}
 </script>
 
@@ -72,18 +82,20 @@
 	{/if}
 	{#if tags && !post}
 		<div class="flex flex-col gap-2">
-			<h1 class="text-lg font-semibold">Tags</h1>
-			<div class="flex flex-col gap-1">
-				{#each tags.documents as tag}
-					<div class="flex flex-row items-center gap-2">
-						<a href="/tag/info/${tag.$id}" class="text-lg text-blue-500 hover:underline">?</a>
-						<a href="/tag/{tag.$id}" class="text-lg text-blue-500 hover:underline">
-							{tag.name}
-							<span class="text-neutral-500">{tag.posts.length}</span>
-						</a>
-					</div>
-				{/each}
-			</div>
+			{#if tags && tags.documents}
+				<h1 class="text-lg font-semibold">Tags</h1>
+				<div class="flex flex-col gap-1">
+					{#each tags.documents as tag}
+						<div class="flex flex-row items-center gap-2">
+							<a href="/tag/info/${tag.$id}" class="text-lg text-blue-500 hover:underline">?</a>
+							<a href="/tag/{tag.$id}" class="text-lg text-blue-500 hover:underline">
+								{tag.name}
+								<span class="text-neutral-500">{tag.posts.length}</span>
+							</a>
+						</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	{/if}
 </div>

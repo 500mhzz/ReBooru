@@ -107,8 +107,78 @@ Make sure you have the following installed:
     ```bash
     bun install
     ```
+   
+## How to setup AppWrite
+1. Create an account on [AppWrite](https://appwrite.io/)
+2. Create a new project and copy the project ID
+3. Create a new API key with the needed perms and copy the key
+4. Create a new Database (call it whatever you want) and copy its ID.
 
-### Development
+### Collection Setup
+- User Collection
+   - username: string - Required
+   - ip: IP - Required
+   - avatar: URL - Required
+   - description: string - Required
+   - premium: boolean - Default False
+   - createdAt: DateTime - Required
+   - following: relation with `Following` Collection
+   - followers: relation with `Followers` Collection
+   - viewed: relation with `Viewed` Collection
+
+
+- Following Collection
+   - user: relation with `User` Collection (Many to One) (Two Way Relation)
+   - followingUser: relation with `User` Collection (One to Many) (One Way Relation)
+
+
+- Followers Collection
+   - user: relation with `User` Collection (Many to One) (Two Way Relation)
+   - follower: relation with `User` Collection (One to Many) (One Way Relation)
+
+
+- Viewed Collection
+   - user: relation with `User` Collection (Many to One) (Two Way Relation)
+   - post: relation with `Post` Collection (Many to One) (Two Way Relation)
+
+- Tags Collection
+   - name: string - Required
+   - post: relation with `Post` Collection (in next step)
+  
+
+- Comments Collection
+   - content: string - Required
+   - user: relation with `User` Collection (Many to One) (Two Way Relation)
+   - post: relation with `Post` Collection
+   - createdAt: DateTime - Required
+
+
+- Post Collection
+   - content: string - Required
+   - tags: Relation with `Tags` Collection (Many to Many) (Two Way Relation)
+   - image: URL - Required (Array)
+   - user: relation with `User` Collection
+   - createdAt: DateTime - Required
+   - likes: relation with `Likes` Collection (Many to Many)
+   - dislikes: relation with `Dislikes` Collection (Many to Many)
+   - comments: relation with `Comments` Collection (One to Many) (Two Way Relation)
+
+> Make sure to copy the IDs to each collection and replace them in the `.env` file. Do that with every id you copied.
+> 
+> Also, make sure to replace the `endpoint` and `project` (project is project ID) in the `.env` file with your own.
+
+### Bucket Setup
+- Create a new bucket and copy the ID
+  - Users can Create, Read, Update, and Delete files in the bucket.
+  - File security is ON.
+  - File size limit is 50MB.
+  - Add all image, video, and audio MIME types.
+- Replace the `bucket` in the `.env` file with the ID you copied.
+
+### Email auth setup (Optional)
+- If you want to have email verification add the SMTP settings in the AppWrite dashboard.
+- Make the email variable in the `.env` file true.
+## Development
 
 To start the development server:
 
@@ -117,3 +187,4 @@ bun run dev
 
 # or start the server and open the app in a new browser tab
 bun run dev -- --open
+```

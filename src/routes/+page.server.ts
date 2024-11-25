@@ -1,5 +1,6 @@
 import { createSessionClient } from '$lib/server/appwrite';
 import { Databases } from 'node-appwrite';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ cookies }) => {
 	const { account } = await createSessionClient(cookies);

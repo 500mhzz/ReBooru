@@ -21,6 +21,7 @@
 					>Logout</button
 				>
 			</form>
+			<a href="/new/post" class="border border-white/10 px-5 py-2 rounded-lg">New Post</a>
 		{/if}
 	</div>
 </nav>

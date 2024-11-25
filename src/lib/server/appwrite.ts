@@ -1,5 +1,5 @@
 // src/lib/server/appwrite.js
-import { Account, Client, Databases } from 'node-appwrite';
+import { Account, Client, Databases, Permission, Role } from 'node-appwrite';
 import { APPWRITE_KEY } from '$env/static/private';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT } from '$env/static/public';
 
@@ -61,13 +61,23 @@ export async function createDatabaseEntry(
 
 	const database = new Databases(client);
 	return await database
-		.createDocument('67432f0f000835f5d283', '674331df00016e6e111a', userId, {
-			username,
-			avatar,
-			description,
-			ip,
-			createdAt: new Date()
-		})
+		.createDocument(
+			'67432f0f000835f5d283',
+			'674331df00016e6e111a',
+			userId,
+			{
+				username,
+				avatar,
+				description,
+				ip,
+				createdAt: new Date()
+			},
+			[
+				Permission.create(Role.user(userId)),
+				Permission.delete(Role.user(userId)),
+				Permission.read(Role.user(userId))
+			]
+		)
 		.catch((e) => {
 			console.error(e);
 		});
