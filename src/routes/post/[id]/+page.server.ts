@@ -61,9 +61,10 @@ export const actions = {
 				content: content.toString()
 			},
 			[
-				Permission.create(Role.user(locals.user.$id)),
+				Permission.read(Role.users()),
+				Permission.update(Role.user(locals.user.$id)),
 				Permission.delete(Role.user(locals.user.$id)),
-				Permission.read(Role.user(locals.user.$id)),
+				Permission.write(Role.user(locals.user.$id))
 			]
 		);
 
@@ -127,9 +128,10 @@ export const actions = {
 				comments: commentId.toString()
 			},
 			[
-				Permission.create(Role.user(locals.user.$id)),
+				Permission.read(Role.users()),
+				Permission.update(Role.user(locals.user.$id)),
 				Permission.delete(Role.user(locals.user.$id)),
-				Permission.read(Role.user(locals.user.$id)),
+				Permission.write(Role.user(locals.user.$id))
 			]
 		);
 
@@ -196,9 +198,10 @@ export const actions = {
 				comments: commentId.toString()
 			},
 			[
-				Permission.create(Role.user(locals.user.$id)),
+				Permission.read(Role.users()),
+				Permission.update(Role.user(locals.user.$id)),
 				Permission.delete(Role.user(locals.user.$id)),
-				Permission.read(Role.user(locals.user.$id)),
+				Permission.write(Role.user(locals.user.$id))
 			]
 		);
 

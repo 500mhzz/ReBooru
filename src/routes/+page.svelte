@@ -19,16 +19,3 @@
 		</div>
 	{/each}
 </div>
-
-<!--{#if data.user}-->
-<!--	<div>-->
-<!--		<img src={data.user.avatar} alt="avatar" class="max-w-20 rounded-full">-->
-<!--		<h1 class="font-semibold text-xl">{data.user.username} <span class="font-normal text-sm text-neutral-400">({data.user.$id})</span></h1>-->
-<!--		<p>Created: {new Date(data.user.createdAt).toLocaleTimeString()} - {new Date(data.user.createdAt).toLocaleDateString()}</p>-->
-<!--		<p-->
-<!--			class="{data.user.premium ? 'bg-yellow-500/50' : 'bg-neutral-900/35'} w-fit border border-white/10 rounded-full px-5 py-1"-->
-<!--		>-->
-<!--			{data.user.premium ? "Premium" : "Free"}-->
-<!--		</p>-->
-<!--	</div>-->
-<!--{/if}-->

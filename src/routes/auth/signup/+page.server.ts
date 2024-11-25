@@ -24,10 +24,6 @@ export const actions = {
 		await account.create(ID.unique(), email.toString(), password.toString(), name.toString());
 		const session = await account.createEmailPasswordSession(email.toString(), password.toString());
 
-		if(env.EMAIL_VERIFICATION && env.PUBLIC_SITE_URL) {
-			await account.createVerification(`${env.PUBLIC_SITE_URL}/auth/verify-email`);
-		}
-
 		const randomAvatarUrl = avatars[Math.floor(Math.random() * avatars.length)];
 		const userIp = request.headers.get('x-forwarded-for') || getClientAddress();
 
@@ -40,6 +36,10 @@ export const actions = {
 			secure: true,
 			path: '/'
 		});
+
+		if(env.EMAIL_VERIFICATION && env.PUBLIC_SITE_URL) {
+			await account.createVerification(`${env.PUBLIC_SITE_URL}/auth/verify-email`);
+		}
 
 		redirect(302, '/?message=Welcome to ReBooru! Please check your email to verify your account.');
 	}
